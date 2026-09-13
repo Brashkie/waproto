@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { WireType, encodeFields, fromString } from '@brashkie/signalis-codec';
+import { describe, expect, it } from 'vitest';
 
 import { Message } from '../src';
 
@@ -44,7 +44,9 @@ describe('Message (lazy, zero-copy)', () => {
   });
 
   it('exposes which fields are present', () => {
-    const buf = encodeFields([{ fieldNumber: 1, wireType: WireType.Bytes, bytes: fromString('x') }]);
+    const buf = encodeFields([
+      { fieldNumber: 1, wireType: WireType.Bytes, bytes: fromString('x') },
+    ]);
     const msg = Message.decode(buf);
     expect(msg.has(1)).toBe(true);
     expect(msg.has(6)).toBe(false);
@@ -70,7 +72,7 @@ describe('Message (lazy, zero-copy)', () => {
     const msg = Message.decode(buf);
     expect(msg.conversation).toBeNull();
     expect(msg.extendedTextMessage).toBeNull();
-    expect(msg.text).toBeNull();   // covers the final ?? null branch
+    expect(msg.text).toBeNull(); // covers the final ?? null branch
     expect(msg.isText).toBe(false);
     expect(msg.hasMedia).toBe(true);
   });

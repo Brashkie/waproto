@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { WireType, encodeFields, fromString } from '@brashkie/signalis-codec';
+import { describe, expect, it } from 'vitest';
 
 import { Message } from '../src';
 

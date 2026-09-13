@@ -3,12 +3,12 @@
  * link previews, mentions). Field numbers from the WhatsApp protobuf schema.
  */
 
-import { type LazyMessage } from '@brashkie/signalis-codec';
+import type { LazyMessage } from '@brashkie/signalis-codec';
 
 import { LazyModel } from '../field-reader';
 
 /** Field numbers within ExtendedTextMessage (WhatsApp schema). */
-const enum Field {
+enum Field {
   Text = 1,
   MatchedText = 2,
   CanonicalUrl = 4,

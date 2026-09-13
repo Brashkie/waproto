@@ -10,7 +10,7 @@ import { LazyModel, indexBuffer } from '../field-reader';
 import { ExtendedTextMessage } from './extended-text-message';
 
 /** Field numbers within Message (WhatsApp schema). */
-const enum Field {
+enum Field {
   Conversation = 1,
   SenderKeyDistributionMessage = 2,
   ImageMessage = 3,
