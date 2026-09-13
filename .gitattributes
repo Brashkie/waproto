@@ -1,0 +1,25 @@
+# Auto-detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# Explicitly declare text files
+*.ts    text eol=lf
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.cjs   text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# Binary files (no diff, no eol conversion)
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+
+# Linguist: exclude generated/vendored from language stats
+dist/**       linguist-generated=true
+*.test.ts     linguist-detectable=true
+coverage/**   linguist-vendored=true

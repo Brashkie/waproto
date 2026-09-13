@@ -1,0 +1,35 @@
+# Source (only dist ships)
+src/
+__tests__/
+*.test.ts
+
+# Config
+tsconfig.json
+tsup.config.ts
+biome.json
+vitest.config.ts
+.gitignore
+.gitattributes
+.npmignore
+
+# CI / repo meta
+.github/
+.git/
+ROADMAP.md
+INSTRUCTIONS.md
+
+# Coverage & caches
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.cache/
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Lockfiles / logs
+package-lock.json
+*.log
+*.tgz

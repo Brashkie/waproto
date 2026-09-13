@@ -1,0 +1,64 @@
+{
+  "name": "@brashkie/waproto",
+  "version": "0.1.0",
+  "description": "Lazy, zero-copy WhatsApp protocol message models over @brashkie/signalis-codec \u2014 part of the Hepein ecosystem",
+  "type": "commonjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.mts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "README.es.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check src __tests__",
+    "lint:fix": "biome check src __tests__ --fix",
+    "typecheck": "tsc --noEmit",
+    "test:coverage": "vitest run --coverage",
+    "coverage:open": "vitest run --coverage && open coverage/index.html"
+  },
+  "keywords": [
+    "whatsapp",
+    "waproto",
+    "protobuf",
+    "baileys",
+    "lazy",
+    "zero-copy",
+    "hepein"
+  ],
+  "author": "Brashkie (Hepein Oficial)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brashkie/waproto.git"
+  },
+  "dependencies": {
+    "@brashkie/signalis-codec": "^0.4.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0"
+  }
+}

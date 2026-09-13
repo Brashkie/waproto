@@ -1,0 +1,12 @@
+@brashkie/waproto
+Copyright 2026 Brashkie / Hepein Oficial
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This package builds on:
+  - @brashkie/signalis-codec  (Apache-2.0)  — protobuf wire codec
+  - @brashkie/signalis-core   (Apache-2.0)  — cryptographic primitives
+
+WhatsApp protobuf field numbers are derived from the publicly documented
+WhatsApp Web protocol schema. "WhatsApp" is a trademark of its respective owner;
+this project is not affiliated with or endorsed by WhatsApp/Meta.
