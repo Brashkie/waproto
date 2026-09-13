@@ -16,3 +16,5 @@
 export { LazyModel } from './field-reader';
 export { Message } from './messages/message';
 export { ExtendedTextMessage } from './messages/extended-text-message';
+export { ImageMessage } from './messages/image-message';
+export { AudioMessage } from './messages/audio-message';

@@ -4,6 +4,31 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.2.0] — 2026-09-13
+
+### Added — Phase 2 (part 1): image & audio media messages
+
+- **`ImageMessage`** — lazy model for image content: `url`, `mimetype`,
+  `caption`, `fileSha256`, `fileLength` (bigint), `height`, `width`, `mediaKey`,
+  `fileEncSha256`, `directPath`.
+- **`AudioMessage`** — lazy model for audio / voice notes: `url`, `mimetype`,
+  `fileSha256`, `fileLength` (bigint), `seconds`, `ptt`, `mediaKey`,
+  `fileEncSha256`, `directPath`, plus `isVoiceNote` helper.
+- **`Message`** now exposes `imageMessage` and `audioMessage` (lazily indexed
+  submessages).
+
+Field numbers verified against the WhatsApp protobuf schema (whatsmeow /
+go-whatsapp). Every getter is exercised by a test, so each field number is
+validated. Coverage: 100% lines/functions.
+
+### Notes
+
+- Video, Document, and Sticker media are intentionally **not** in this release:
+  their exact field numbers were not verified to the same confidence as image/
+  audio. They land in a follow-up once confirmed against the official `.proto`
+  (wrong field numbers would silently mis-decode — not acceptable in a protocol
+  library).
+
 ## [0.1.0] — 2026-09-12
 
 ### Added — Phase 1: lazy Message model

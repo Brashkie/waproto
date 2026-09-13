@@ -7,7 +7,9 @@
  */
 
 import { LazyModel, indexBuffer } from '../field-reader';
+import { AudioMessage } from './audio-message';
 import { ExtendedTextMessage } from './extended-text-message';
+import { ImageMessage } from './image-message';
 
 /** Field numbers within Message (WhatsApp schema). */
 enum Field {
@@ -52,6 +54,18 @@ export class Message extends LazyModel {
   get extendedTextMessage(): ExtendedTextMessage | null {
     const sub = this.raw.getMessage(Field.ExtendedTextMessage);
     return sub === null ? null : ExtendedTextMessage.from(sub);
+  }
+
+  /** Image content. Lazily indexed submessage. */
+  get imageMessage(): ImageMessage | null {
+    const sub = this.raw.getMessage(Field.ImageMessage);
+    return sub === null ? null : ImageMessage.from(sub);
+  }
+
+  /** Audio content (voice notes / audio files). Lazily indexed submessage. */
+  get audioMessage(): AudioMessage | null {
+    const sub = this.raw.getMessage(Field.AudioMessage);
+    return sub === null ? null : AudioMessage.from(sub);
   }
 
   /** Whether this message carries plain-text content. */

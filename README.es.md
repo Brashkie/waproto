@@ -43,6 +43,16 @@ const ext = msg.extendedTextMessage;
 if (ext !== null) {
   console.log(ext.text, ext.title);
 }
+
+// Mensajes de media (v0.2.0) — también lazy:
+const img = msg.imageMessage;
+if (img !== null) {
+  console.log(img.mimetype, img.width, img.height, img.fileLength);
+}
+const audio = msg.audioMessage;
+if (audio !== null && audio.isVoiceNote) {
+  console.log(`nota de voz, ${audio.seconds}s`);
+}
 ```
 
 ## Diseño

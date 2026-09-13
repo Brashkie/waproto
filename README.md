@@ -43,6 +43,16 @@ if (ext !== null) {
   console.log(ext.text, ext.title);
 }
 
+// Media messages (v0.2.0) — also lazy:
+const img = msg.imageMessage;
+if (img !== null) {
+  console.log(img.mimetype, img.width, img.height, img.fileLength);
+}
+const audio = msg.audioMessage;
+if (audio !== null && audio.isVoiceNote) {
+  console.log(`voice note, ${audio.seconds}s`);
+}
+
 // Convenience helpers:
 msg.text;           // conversation ?? extendedTextMessage.text
 msg.isText;         // boolean
