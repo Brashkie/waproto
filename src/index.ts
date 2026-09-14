@@ -18,3 +18,6 @@ export { Message } from './messages/message';
 export { ExtendedTextMessage } from './messages/extended-text-message';
 export { ImageMessage } from './messages/image-message';
 export { AudioMessage } from './messages/audio-message';
+export { VideoMessage } from './messages/video-message';
+export { DocumentMessage } from './messages/document-message';
+export { StickerMessage } from './messages/sticker-message';

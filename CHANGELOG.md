@@ -4,6 +4,29 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.0] — 2026-09-13
+
+### Added — Phase 2 complete: all media messages
+
+Field numbers now **verified against the official WhatsApp `.proto`** (WAProto/
+index.proto), including a re-validation of the v0.2.0 image/audio numbers (all
+correct).
+
+- **`VideoMessage`** — `url`, `mimetype`, `fileSha256`, `fileLength`, `seconds`,
+  `mediaKey`, `caption`, `gifPlayback`, `height`, `width`, `fileEncSha256`,
+  `directPath`, `viewOnce`, plus `isGif`.
+- **`DocumentMessage`** — `url`, `mimetype`, `title`, `fileSha256`, `fileLength`,
+  `pageCount`, `mediaKey`, `fileName`, `fileEncSha256`, `directPath`, `caption`.
+- **`StickerMessage`** — `url`, `fileSha256`, `fileEncSha256`, `mediaKey`,
+  `mimetype`, `height`, `width`, `directPath`, `fileLength`, `isAnimated`,
+  `isAvatar`. Note: stickers use a **different field layout** (e.g. `fileSha256`
+  is field 2, not 4) — verified against the schema.
+- **`Message`** now exposes `videoMessage`, `documentMessage`, `stickerMessage`;
+  `hasMedia` covers all five media types.
+
+Coverage: 100% (lines/branches/functions), 22 tests, all validated against the
+real `@brashkie/signalis-codec`.
+
 ## [0.2.0] — 2026-09-13
 
 ### Added — Phase 2 (part 1): image & audio media messages

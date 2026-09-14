@@ -53,6 +53,11 @@ const audio = msg.audioMessage;
 if (audio !== null && audio.isVoiceNote) {
   console.log(`nota de voz, ${audio.seconds}s`);
 }
+
+// v0.3.0: video, document, sticker (todos verificados vs el .proto oficial)
+msg.videoMessage?.isGif;
+msg.documentMessage?.fileName;
+msg.stickerMessage?.isAnimated;
 ```
 
 ## Diseño

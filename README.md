@@ -53,6 +53,11 @@ if (audio !== null && audio.isVoiceNote) {
   console.log(`voice note, ${audio.seconds}s`);
 }
 
+// v0.3.0: video, document, sticker (todos verificados vs el .proto oficial)
+msg.videoMessage?.isGif;
+msg.documentMessage?.fileName;
+msg.stickerMessage?.isAnimated;
+
 // Convenience helpers:
 msg.text;           // conversation ?? extendedTextMessage.text
 msg.isText;         // boolean

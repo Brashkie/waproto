@@ -8,8 +8,11 @@
 
 import { LazyModel, indexBuffer } from '../field-reader';
 import { AudioMessage } from './audio-message';
+import { DocumentMessage } from './document-message';
 import { ExtendedTextMessage } from './extended-text-message';
 import { ImageMessage } from './image-message';
+import { StickerMessage } from './sticker-message';
+import { VideoMessage } from './video-message';
 
 /** Field numbers within Message (WhatsApp schema). */
 enum Field {
@@ -23,6 +26,7 @@ enum Field {
   AudioMessage = 8,
   VideoMessage = 9,
   ProtocolMessage = 12,
+  StickerMessage = 26,
 }
 
 /**
@@ -68,6 +72,24 @@ export class Message extends LazyModel {
     return sub === null ? null : AudioMessage.from(sub);
   }
 
+  /** Video content. Lazily indexed submessage. */
+  get videoMessage(): VideoMessage | null {
+    const sub = this.raw.getMessage(Field.VideoMessage);
+    return sub === null ? null : VideoMessage.from(sub);
+  }
+
+  /** Document / file content. Lazily indexed submessage. */
+  get documentMessage(): DocumentMessage | null {
+    const sub = this.raw.getMessage(Field.DocumentMessage);
+    return sub === null ? null : DocumentMessage.from(sub);
+  }
+
+  /** Sticker content. Lazily indexed submessage. */
+  get stickerMessage(): StickerMessage | null {
+    const sub = this.raw.getMessage(Field.StickerMessage);
+    return sub === null ? null : StickerMessage.from(sub);
+  }
+
   /** Whether this message carries plain-text content. */
   get isText(): boolean {
     return this.has(Field.Conversation) || this.has(Field.ExtendedTextMessage);
@@ -87,7 +109,8 @@ export class Message extends LazyModel {
       this.has(Field.ImageMessage) ||
       this.has(Field.VideoMessage) ||
       this.has(Field.AudioMessage) ||
-      this.has(Field.DocumentMessage)
+      this.has(Field.DocumentMessage) ||
+      this.has(Field.StickerMessage)
     );
   }
 }

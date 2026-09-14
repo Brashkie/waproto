@@ -1,6 +1,6 @@
 {
   "name": "@brashkie/waproto",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Lazy, zero-copy WhatsApp protocol message models over @brashkie/signalis-codec \u2014 part of the Hepein ecosystem",
   "type": "commonjs",
   "main": "./dist/index.cjs",

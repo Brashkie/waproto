@@ -11,12 +11,13 @@ toward a from-scratch Baileys alternative.
 - [x] `ExtendedTextMessage` (nested submessage pattern)
 - [x] TypeScript-only design (no FFI of its own)
 
-## 🟡 Phase 2 — Media messages
+## ✅ Phase 2 — Media messages
 
 - [x] `ImageMessage` *(v0.2.0 — field numbers verified)*
 - [x] `AudioMessage` *(v0.2.0 — incl. ptt / isVoiceNote)*
-- [ ] `VideoMessage`, `DocumentMessage` *(pending field-number verification vs official .proto)*
-- [ ] `StickerMessage`
+- [x] `VideoMessage` *(v0.3.0 — verified vs official .proto)*
+- [x] `DocumentMessage` *(v0.3.0)*
+- [x] `StickerMessage` *(v0.3.0 — distinct field layout, verified)*
 
 ## 🔲 Phase 3 — Context & metadata
 
@@ -44,4 +45,4 @@ toward a from-scratch Baileys alternative.
 - Feeds into `signalis-net` (transport: socket + Noise + framing) and, together
   with `@brashkie/signalis`, a from-scratch Baileys alternative.
 
-**Progress: Phase 2 in progress (image + audio done; video/document/sticker pending).**
+**Progress: Phase 2 complete (all media types, verified against official .proto).**
