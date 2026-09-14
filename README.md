@@ -27,7 +27,7 @@ npm install @brashkie/waproto
 ## Usage
 
 ```typescript
-import { Message } from '@brashkie/waproto';
+import { Message, WebMessageInfo } from '@brashkie/waproto';
 
 // Wrap a raw WhatsApp Message buffer — nothing is decoded yet.
 const msg = Message.decode(buffer);
@@ -64,6 +64,16 @@ msg.isText;         // boolean
 msg.hasMedia;       // boolean
 msg.has(1);         // is field present? (no decode)
 msg.presentFields(); // which fields are present
+```
+
+```typescript
+// v0.4.0: envelope for routing (read key without decoding content)
+const info = WebMessageInfo.decode(envelopeBuffer);
+if (info.key?.remoteJid?.endsWith('@g.us')) {
+  // group message — route without touching the content
+}
+console.log(info.pushName, info.messageTimestamp);
+const text = info.message?.conversation;  // content read only if needed
 ```
 
 ## Design

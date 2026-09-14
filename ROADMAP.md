@@ -19,11 +19,12 @@ toward a from-scratch Baileys alternative.
 - [x] `DocumentMessage` *(v0.3.0)*
 - [x] `StickerMessage` *(v0.3.0 — distinct field layout, verified)*
 
-## 🔲 Phase 3 — Context & metadata
+## ✅ Phase 3 — Context & metadata
 
-- [ ] `ContextInfo` (replies, mentions, forwarding)
-- [ ] `WebMessageInfo` (the message envelope: key, timestamp, status, pushName)
-- [ ] `MessageKey` (remoteJid, fromMe, id)
+- [x] `WebMessageInfo` *(v0.4.0 — envelope: key, message, timestamp, status, pushName)*
+- [x] `MessageKey` *(v0.4.0 — remoteJid, fromMe, id, participant)*
+- [x] `ContextInfo` *(v0.4.0 — reply/quote + forwarding; scalar fields)*
+- [ ] Repeated fields (`mentionedJid`, `labels`) — needs repeated-read support in signalis-codec
 
 ## 🔲 Phase 4 — Interactive & protocol messages
 
@@ -45,4 +46,4 @@ toward a from-scratch Baileys alternative.
 - Feeds into `signalis-net` (transport: socket + Noise + framing) and, together
   with `@brashkie/signalis`, a from-scratch Baileys alternative.
 
-**Progress: Phase 2 complete (all media types, verified against official .proto).**
+**Progress: Phase 3 complete (envelope + routing metadata). Next: interactive messages, or repeated-field support in the codec.**

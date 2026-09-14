@@ -4,6 +4,35 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.4.0] — 2026-09-14
+
+### Added — Phase 3: message envelope (routing metadata)
+
+The envelope layer that makes lazy routing genuinely useful — a bot can read
+`info.key.remoteJid` to route a message without decoding its content. Field
+numbers verified against the official WhatsApp `.proto`.
+
+- **`WebMessageInfo`** — the message envelope: `key`, `message` (nested content),
+  `messageTimestamp` (bigint), `status`, `pushName`, `participant`, `starred`,
+  `broadcast`. Entry point via `WebMessageInfo.decode(buf)`.
+- **`MessageKey`** — `remoteJid`, `fromMe`, `id`, `participant` (what routing
+  keys on).
+- **`ContextInfo`** — reply/quote and forwarding metadata: `stanzaId`,
+  `participant`, `remoteJid`, `forwardingScore`, `isForwarded`, `expiration`,
+  plus `isReply`.
+- **`MessageStatus`** enum (Error/Pending/ServerAck/DeliveryAck/Read/Played).
+- `Message.from` added to wrap nested content messages.
+
+### Known limitation
+
+- Repeated fields (e.g. `ContextInfo.mentionedJid`, `labels`) are **not** exposed
+  yet: the underlying lazy reader returns only the first occurrence of a field,
+  so exposing repeated fields would silently drop values. They will be added once
+  repeated-field reading lands in `@brashkie/signalis-codec`.
+
+Coverage: 100% (lines/branches/functions), 27 tests, validated against the real
+`@brashkie/signalis-codec`.
+
 ## [0.3.0] — 2026-09-13
 
 ### Added — Phase 2 complete: all media messages

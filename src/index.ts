@@ -21,3 +21,6 @@ export { AudioMessage } from './messages/audio-message';
 export { VideoMessage } from './messages/video-message';
 export { DocumentMessage } from './messages/document-message';
 export { StickerMessage } from './messages/sticker-message';
+export { MessageKey } from './messages/message-key';
+export { ContextInfo } from './messages/context-info';
+export { WebMessageInfo, MessageStatus } from './messages/web-message-info';

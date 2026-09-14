@@ -49,6 +49,15 @@ export class Message extends LazyModel {
     return new Message(indexBuffer(buf));
   }
 
+  /**
+   * Wrap an already-indexed submessage (e.g. the `message` field of a
+   * `WebMessageInfo`). Internal use for nested Message fields.
+   * @internal
+   */
+  static from(raw: import('@brashkie/signalis-codec').LazyMessage): Message {
+    return new Message(raw);
+  }
+
   /** Plain text content (the common case for a simple chat message). */
   get conversation(): string | null {
     return this.raw.getString(Field.Conversation);
