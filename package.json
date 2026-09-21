@@ -1,6 +1,6 @@
 {
   "name": "@brashkie/waproto",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Lazy, zero-copy WhatsApp protocol message models over @brashkie/signalis-codec \u2014 part of the Hepein ecosystem",
   "type": "commonjs",
   "main": "./dist/index.cjs",
@@ -51,7 +51,7 @@
     "url": "git+https://github.com/Brashkie/waproto.git"
   },
   "dependencies": {
-    "@brashkie/signalis-codec": "^0.4.0"
+    "@brashkie/signalis-codec": "^0.5.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",

@@ -2,10 +2,8 @@
  * WhatsApp `ContextInfo` — reply/quote, forwarding, and related metadata.
  * Field numbers verified against the official WhatsApp `.proto`.
  *
- * Note: repeated fields (e.g. `mentionedJid`) are not exposed yet — the current
- * lazy reader returns only the first occurrence of a field, so exposing them
- * would silently drop values. They will be added once repeated-field reading
- * lands in the underlying codec.
+ * Repeated fields (e.g. `mentionedJid`) are read via the codec's `getAllStrings`
+ * (requires `@brashkie/signalis-codec` >= 0.5.0) and return an array.
  */
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
@@ -18,6 +16,7 @@ enum Field {
   Participant = 2,
   QuotedMessage = 3,
   RemoteJid = 4,
+  MentionedJid = 15,
   ForwardingScore = 21,
   IsForwarded = 22,
   Expiration = 25,
@@ -53,6 +52,14 @@ export class ContextInfo extends LazyModel {
   /** Whether the message was forwarded. */
   get isForwarded(): boolean | null {
     return this.raw.getBool(Field.IsForwarded);
+  }
+
+  /**
+   * JIDs @mentioned in the message (repeated). Returns an empty array if there
+   * are no mentions. Requires `@brashkie/signalis-codec` >= 0.5.0.
+   */
+  get mentionedJid(): string[] {
+    return this.raw.getAllStrings(Field.MentionedJid);
   }
 
   /** Disappearing-message expiration in seconds. */

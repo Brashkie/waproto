@@ -7,11 +7,11 @@ on:
 
 jobs:
   publish:
-    name: Publish to npm
+    name: Publish to npm & GitHub Release
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write
+      contents: write      # needed to create the GitHub Release
+      id-token: write       # npm provenance
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -38,7 +38,18 @@ jobs:
           fi
           echo "Tag and package.json both at $PKG ✓"
 
-      - name: Publish
+      - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # The tag that triggered this workflow (e.g. v0.2.0).
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          # Auto-generate notes from commits since the previous tag.
+          generate_release_notes: true
+          # Marks the newest as "Latest" automatically.
+          make_latest: true

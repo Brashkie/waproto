@@ -4,6 +4,20 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.5.0] — 2026-09-20
+
+### Added — `ContextInfo.mentionedJid` (repeated) + codec 0.5.0
+
+- **`ContextInfo.mentionedJid`** → `string[]` — the JIDs @mentioned in a message.
+  This closes the "known limitation" from 0.4.0: repeated fields are now read in
+  full (every occurrence), via the codec's new `getAllStrings`.
+- Bumped `@brashkie/signalis-codec` to **^0.5.0** (adds repeated-field readers).
+
+### Convention
+
+- Repeated getters return an **array** (empty if the field is absent), while
+  scalar getters return `value | null`. Consistent and predictable.
+
 ## [0.4.0] — 2026-09-14
 
 ### Added — Phase 3: message envelope (routing metadata)

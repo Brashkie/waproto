@@ -24,7 +24,7 @@ toward a from-scratch Baileys alternative.
 - [x] `WebMessageInfo` *(v0.4.0 — envelope: key, message, timestamp, status, pushName)*
 - [x] `MessageKey` *(v0.4.0 — remoteJid, fromMe, id, participant)*
 - [x] `ContextInfo` *(v0.4.0 — reply/quote + forwarding; scalar fields)*
-- [ ] Repeated fields (`mentionedJid`, `labels`) — needs repeated-read support in signalis-codec
+- [x] Repeated fields — `ContextInfo.mentionedJid` *(v0.5.0, via signalis-codec 0.5.0 `getAllStrings`)*
 
 ## 🔲 Phase 4 — Interactive & protocol messages
 

@@ -53,3 +53,47 @@ describe('ContextInfo (lazy)', () => {
     expect(c.isForwarded).toBe(false);
   });
 });
+
+describe('ContextInfo — mentionedJid (repeated, v0.5.0)', () => {
+  function decodeContext(buf: Buffer): ContextInfo {
+    return (ContextInfo as unknown as { from: (r: unknown) => ContextInfo }).from(
+      (
+        WebMessageInfo.decode(
+          encodeFields([{ fieldNumber: 1, wireType: WireType.Bytes, bytes: buf }]),
+        ) as unknown as {
+          raw: { getMessage: (n: number) => unknown };
+        }
+      ).raw.getMessage(1),
+    );
+  }
+
+  it('reads ALL mentions, not just the first', () => {
+    // ContextInfo { mentionedJid=15 (repeated x3) }
+    const ctx = encodeFields([
+      { fieldNumber: 15, wireType: WireType.Bytes, bytes: fromString('111@s.whatsapp.net') },
+      { fieldNumber: 15, wireType: WireType.Bytes, bytes: fromString('222@s.whatsapp.net') },
+      { fieldNumber: 15, wireType: WireType.Bytes, bytes: fromString('333@s.whatsapp.net') },
+    ]);
+    const c = decodeContext(ctx);
+    expect(c.mentionedJid).toEqual([
+      '111@s.whatsapp.net',
+      '222@s.whatsapp.net',
+      '333@s.whatsapp.net',
+    ]);
+  });
+
+  it('returns an empty array when there are no mentions', () => {
+    const ctx = encodeFields([
+      { fieldNumber: 1, wireType: WireType.Bytes, bytes: fromString('QUOTED') },
+    ]);
+    const c = decodeContext(ctx);
+    expect(c.mentionedJid).toEqual([]);
+  });
+
+  it('reads a single mention as a one-element array', () => {
+    const ctx = encodeFields([
+      { fieldNumber: 15, wireType: WireType.Bytes, bytes: fromString('solo@s.whatsapp.net') },
+    ]);
+    expect(decodeContext(ctx).mentionedJid).toEqual(['solo@s.whatsapp.net']);
+  });
+});

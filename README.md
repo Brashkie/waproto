@@ -57,6 +57,8 @@ if (audio !== null && audio.isVoiceNote) {
 msg.videoMessage?.isGif;
 msg.documentMessage?.fileName;
 msg.stickerMessage?.isAnimated;
+// v0.5.0: menciones (repeated) vía ContextInfo
+// contextInfo.mentionedJid; // string[]
 
 // Convenience helpers:
 msg.text;           // conversation ?? extendedTextMessage.text
