@@ -4,6 +4,25 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.6.0] — 2026-09-21
+
+### Added — Phase 4a: interactive messages (reactions & polls)
+
+First interactive types, using the codec 0.5.0 repeated-field readers for poll
+options. Field numbers verified against the official WhatsApp `.proto`.
+
+- **`ReactionMessage`** — `key`, `text` (emoji), `groupingKey`,
+  `senderTimestampMs`, plus `isRemoval` (empty-text = reaction removed).
+- **`PollCreationMessage`** — `name` (question), `selectableOptionsCount`,
+  `options` (**repeated** `PollOption[]`), and `optionNames` convenience.
+- **`PollOption`** — a single option (`name`).
+- **`Message`** now exposes `reactionMessage` and `pollCreationMessage`. The poll
+  getter resolves across WhatsApp's versioned fields (V5/V3/V2/base), returning
+  whichever is present.
+
+Coverage: 100% (lines/branches/functions), 39 tests, validated against the real
+`@brashkie/signalis-codec` 0.5.0.
+
 ## [0.5.0] — 2026-09-20
 
 ### Added — `ContextInfo.mentionedJid` (repeated) + codec 0.5.0

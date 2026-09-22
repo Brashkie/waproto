@@ -26,10 +26,12 @@ toward a from-scratch Baileys alternative.
 - [x] `ContextInfo` *(v0.4.0 — reply/quote + forwarding; scalar fields)*
 - [x] Repeated fields — `ContextInfo.mentionedJid` *(v0.5.0, via signalis-codec 0.5.0 `getAllStrings`)*
 
-## 🔲 Phase 4 — Interactive & protocol messages
+## 🟡 Phase 4 — Interactive & protocol messages
 
-- [ ] `ProtocolMessage`, `ReactionMessage`, `PollCreationMessage`
-- [ ] `ButtonsMessage`, `ListMessage`, `TemplateMessage`
+- [x] `ReactionMessage` *(v0.6.0)*
+- [x] `PollCreationMessage` + `PollOption` *(v0.6.0 — repeated options)*
+- [ ] `ProtocolMessage`
+- [ ] `ButtonsMessage`, `ListMessage`, `TemplateMessage` (Phase 4b — deeper nesting)
 
 ## 🔲 Phase 5 — Encoding (write path)
 
@@ -46,4 +48,4 @@ toward a from-scratch Baileys alternative.
 - Feeds into `signalis-net` (transport: socket + Noise + framing) and, together
   with `@brashkie/signalis`, a from-scratch Baileys alternative.
 
-**Progress: Phase 3 complete (envelope + routing metadata). Next: interactive messages, or repeated-field support in the codec.**
+**Progress: Phase 4a done (reactions + polls). Next: Phase 4b (buttons/list/template) or Phase 5 (builders).**

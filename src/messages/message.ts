@@ -11,6 +11,8 @@ import { AudioMessage } from './audio-message';
 import { DocumentMessage } from './document-message';
 import { ExtendedTextMessage } from './extended-text-message';
 import { ImageMessage } from './image-message';
+import { PollCreationMessage } from './poll-creation-message';
+import { ReactionMessage } from './reaction-message';
 import { StickerMessage } from './sticker-message';
 import { VideoMessage } from './video-message';
 
@@ -27,6 +29,11 @@ enum Field {
   VideoMessage = 9,
   ProtocolMessage = 12,
   StickerMessage = 26,
+  ReactionMessage = 46,
+  PollCreationMessage = 49,
+  PollCreationMessageV2 = 60,
+  PollCreationMessageV3 = 64,
+  PollCreationMessageV5 = 111,
 }
 
 /**
@@ -97,6 +104,29 @@ export class Message extends LazyModel {
   get stickerMessage(): StickerMessage | null {
     const sub = this.raw.getMessage(Field.StickerMessage);
     return sub === null ? null : StickerMessage.from(sub);
+  }
+
+  /** Emoji reaction to another message. Lazily indexed submessage. */
+  get reactionMessage(): ReactionMessage | null {
+    const sub = this.raw.getMessage(Field.ReactionMessage);
+    return sub === null ? null : ReactionMessage.from(sub);
+  }
+
+  /**
+   * Poll creation. WhatsApp uses several versioned fields for polls depending on
+   * the client; this returns whichever version is present (newest first).
+   */
+  get pollCreationMessage(): PollCreationMessage | null {
+    for (const field of [
+      Field.PollCreationMessageV5,
+      Field.PollCreationMessageV3,
+      Field.PollCreationMessageV2,
+      Field.PollCreationMessage,
+    ]) {
+      const sub = this.raw.getMessage(field);
+      if (sub !== null) return PollCreationMessage.from(sub);
+    }
+    return null;
   }
 
   /** Whether this message carries plain-text content. */

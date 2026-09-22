@@ -24,3 +24,5 @@ export { StickerMessage } from './messages/sticker-message';
 export { MessageKey } from './messages/message-key';
 export { ContextInfo } from './messages/context-info';
 export { WebMessageInfo, MessageStatus } from './messages/web-message-info';
+export { ReactionMessage } from './messages/reaction-message';
+export { PollCreationMessage, PollOption } from './messages/poll-creation-message';
