@@ -4,6 +4,27 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.9.0] — 2026-09-23
+
+### Added — Phase 5 (part 1): fluent message builders (write path)
+
+waproto can now **build** messages, not just read them. A fluent API assembles
+the protobuf and `.build()` encodes it via `@brashkie/signalis-codec`. Field
+numbers are shared with the readers (one source of truth), and every builder is
+verified by a **round-trip test** (build → decode → match).
+
+- **`buildMessage()`** → `MessageBuilder` with:
+  - `.conversation(text)` — plain text
+  - `.extendedText(text).withPreview(url, title?, description?)` — text + link preview
+  - `.reaction(targetKey, emoji, senderTimestampMs?)` — react to a message
+  - `.build()` → `Buffer` ready to send
+- **`KeyInput`** type for targeting reactions.
+
+This is the first write-path release; media and interactive builders (buttons,
+lists) follow in a later part now that the fluent pattern is proven.
+
+Coverage: 100% (lines/branches/functions), 58 tests.
+
 ## [0.8.0] — 2026-09-22
 
 ### Added — ProtocolMessage (revoke / edit / ephemeral)

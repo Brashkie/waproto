@@ -29,3 +29,7 @@ export { PollCreationMessage, PollOption } from './messages/poll-creation-messag
 export { ButtonsMessage, Button } from './messages/buttons-message';
 export { ListMessage, Section, Row } from './messages/list-message';
 export { ProtocolMessage, ProtocolMessageType } from './messages/protocol-message';
+
+// ─── Builders (write path, v0.9.0) ───────────────────────────────────────────
+export { buildMessage, MessageBuilder } from './builders/message-builder';
+export type { KeyInput } from './builders/message-builder';
