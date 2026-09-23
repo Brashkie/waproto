@@ -30,7 +30,7 @@ toward a from-scratch Baileys alternative.
 
 - [x] `ReactionMessage` *(v0.6.0)*
 - [x] `PollCreationMessage` + `PollOption` *(v0.6.0 — repeated options)*
-- [ ] `ProtocolMessage`
+- [x] `ProtocolMessage` *(v0.8.0 — revoke/edit/ephemeral)*
 - [x] `ButtonsMessage` + `Button` *(v0.7.0)*
 - [x] `ListMessage` + `Section` + `Row` *(v0.7.0 — nested repeated)*
 - [ ] `TemplateMessage` (Phase 4b part 2 — large subtree, own release)
@@ -50,4 +50,4 @@ toward a from-scratch Baileys alternative.
 - Feeds into `signalis-net` (transport: socket + Noise + framing) and, together
   with `@brashkie/signalis`, a from-scratch Baileys alternative.
 
-**Progress: Phase 4b part 1 done (buttons + list). Next: TemplateMessage, or Phase 5 (builders).**
+**Progress: Phase 4 nearly complete (only TemplateMessage remains). Next: TemplateMessage, or Phase 5 (builders).**

@@ -4,6 +4,23 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.8.0] — 2026-09-22
+
+### Added — ProtocolMessage (revoke / edit / ephemeral)
+
+The meta-message a bot handles constantly: actions on other messages. Field
+numbers and enum values verified against the official WhatsApp `.proto`.
+
+- **`ProtocolMessage`** — `key` (target message), `type`, `ephemeralExpiration`,
+  `editedMessage` (the new content on an edit), `timestampMs`, plus helpers
+  `isRevoke`, `isEdit`, `isEphemeralSetting`.
+- **`ProtocolMessageType`** enum (Revoke, EphemeralSetting, MessageEdit, and the
+  common sync types).
+- **`Message`** now exposes `protocolMessage`.
+
+Coverage: 100% (lines/branches/functions), 50 tests, validated against the real
+`@brashkie/signalis-codec` 0.5.0.
+
 ## [0.7.0] — 2026-09-22
 
 ### Added — Phase 4b (part 1): buttons & list messages

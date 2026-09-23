@@ -14,6 +14,7 @@ import { ExtendedTextMessage } from './extended-text-message';
 import { ImageMessage } from './image-message';
 import { ListMessage } from './list-message';
 import { PollCreationMessage } from './poll-creation-message';
+import { ProtocolMessage } from './protocol-message';
 import { ReactionMessage } from './reaction-message';
 import { StickerMessage } from './sticker-message';
 import { VideoMessage } from './video-message';
@@ -143,6 +144,15 @@ export class Message extends LazyModel {
   get listMessage(): ListMessage | null {
     const sub = this.raw.getMessage(Field.ListMessage);
     return sub === null ? null : ListMessage.from(sub);
+  }
+
+  /**
+   * Protocol action on another message (revoke / edit / ephemeral / sync).
+   * Lazily indexed submessage.
+   */
+  get protocolMessage(): ProtocolMessage | null {
+    const sub = this.raw.getMessage(Field.ProtocolMessage);
+    return sub === null ? null : ProtocolMessage.from(sub);
   }
 
   /** Whether this message carries plain-text content. */
