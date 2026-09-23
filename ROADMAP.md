@@ -31,7 +31,9 @@ toward a from-scratch Baileys alternative.
 - [x] `ReactionMessage` *(v0.6.0)*
 - [x] `PollCreationMessage` + `PollOption` *(v0.6.0 — repeated options)*
 - [ ] `ProtocolMessage`
-- [ ] `ButtonsMessage`, `ListMessage`, `TemplateMessage` (Phase 4b — deeper nesting)
+- [x] `ButtonsMessage` + `Button` *(v0.7.0)*
+- [x] `ListMessage` + `Section` + `Row` *(v0.7.0 — nested repeated)*
+- [ ] `TemplateMessage` (Phase 4b part 2 — large subtree, own release)
 
 ## 🔲 Phase 5 — Encoding (write path)
 
@@ -48,4 +50,4 @@ toward a from-scratch Baileys alternative.
 - Feeds into `signalis-net` (transport: socket + Noise + framing) and, together
   with `@brashkie/signalis`, a from-scratch Baileys alternative.
 
-**Progress: Phase 4a done (reactions + polls). Next: Phase 4b (buttons/list/template) or Phase 5 (builders).**
+**Progress: Phase 4b part 1 done (buttons + list). Next: TemplateMessage, or Phase 5 (builders).**

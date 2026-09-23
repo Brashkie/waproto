@@ -4,6 +4,31 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.7.0] — 2026-09-22
+
+### Added — Phase 4b (part 1): buttons & list messages
+
+The two most-used interactive containers, with their nested types. Field numbers
+verified against the official WhatsApp `.proto`.
+
+- **`ButtonsMessage`** — `contentText`, `footerText`, `buttons` (repeated
+  `Button[]`). **`Button`** exposes `buttonId` and `displayText` (from the nested
+  `ButtonText`).
+- **`ListMessage`** — `title`, `description`, `buttonText`, `footerText`,
+  `sections` (repeated `Section[]`). **`Section`** has `title` and `rows`
+  (repeated `Row[]` — repeated within repeated). **`Row`** has `title`,
+  `description`, `rowId`.
+- **`Message`** now exposes `buttonsMessage` and `listMessage`.
+
+Coverage: 100% (lines/branches/functions), 45 tests, validated against the real
+`@brashkie/signalis-codec` 0.5.0.
+
+### Notes
+
+- `TemplateMessage` (field 25) is deferred to its own release: its subtree
+  (`HydratedFourRowTemplate`, `HighlyStructuredMessage`, `InteractiveMessage`,
+  hydrated buttons) is large and warrants a focused pass.
+
 ## [0.6.0] — 2026-09-21
 
 ### Added — Phase 4a: interactive messages (reactions & polls)

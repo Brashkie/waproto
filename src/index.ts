@@ -26,3 +26,5 @@ export { ContextInfo } from './messages/context-info';
 export { WebMessageInfo, MessageStatus } from './messages/web-message-info';
 export { ReactionMessage } from './messages/reaction-message';
 export { PollCreationMessage, PollOption } from './messages/poll-creation-message';
+export { ButtonsMessage, Button } from './messages/buttons-message';
+export { ListMessage, Section, Row } from './messages/list-message';

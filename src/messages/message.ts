@@ -8,9 +8,11 @@
 
 import { LazyModel, indexBuffer } from '../field-reader';
 import { AudioMessage } from './audio-message';
+import { ButtonsMessage } from './buttons-message';
 import { DocumentMessage } from './document-message';
 import { ExtendedTextMessage } from './extended-text-message';
 import { ImageMessage } from './image-message';
+import { ListMessage } from './list-message';
 import { PollCreationMessage } from './poll-creation-message';
 import { ReactionMessage } from './reaction-message';
 import { StickerMessage } from './sticker-message';
@@ -34,6 +36,8 @@ enum Field {
   PollCreationMessageV2 = 60,
   PollCreationMessageV3 = 64,
   PollCreationMessageV5 = 111,
+  ListMessage = 36,
+  ButtonsMessage = 42,
 }
 
 /**
@@ -127,6 +131,18 @@ export class Message extends LazyModel {
       if (sub !== null) return PollCreationMessage.from(sub);
     }
     return null;
+  }
+
+  /** Quick-reply buttons message. Lazily indexed submessage. */
+  get buttonsMessage(): ButtonsMessage | null {
+    const sub = this.raw.getMessage(Field.ButtonsMessage);
+    return sub === null ? null : ButtonsMessage.from(sub);
+  }
+
+  /** Tappable list message (sections & rows). Lazily indexed submessage. */
+  get listMessage(): ListMessage | null {
+    const sub = this.raw.getMessage(Field.ListMessage);
+    return sub === null ? null : ListMessage.from(sub);
   }
 
   /** Whether this message carries plain-text content. */
