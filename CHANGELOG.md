@@ -4,6 +4,24 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.10.0] — 2026-09-24
+
+### Added — Phase 5 (part 2): media builders
+
+Fluent write-path builders for the media types, added to `MessageBuilder`. Each
+takes an options object (media has many optional fields) and is verified by a
+round-trip test (build → decode → match). Field numbers shared with the readers.
+
+- **`.image(opts)`** — url, mimetype, caption, fileSha256, fileLength, height,
+  width, mediaKey, fileEncSha256, directPath.
+- **`.video(opts)`** — + seconds, gifPlayback, viewOnce.
+- **`.audio(opts)`** — + seconds, ptt (voice note).
+- **`.document(opts)`** — + title, fileName, pageCount, caption.
+- Option types exported: `ImageOptions`, `VideoOptions`, `AudioOptions`,
+  `DocumentOptions`. Absent optional fields are omitted from the encoding.
+
+Coverage: 100% (lines/branches/functions), 66 tests.
+
 ## [0.9.0] — 2026-09-23
 
 ### Added — Phase 5 (part 1): fluent message builders (write path)

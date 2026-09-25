@@ -24,9 +24,24 @@ import {
   fromUint32,
 } from '@brashkie/signalis-codec';
 
+import {
+  type AudioOptions,
+  type DocumentOptions,
+  type ImageOptions,
+  type VideoOptions,
+  encodeAudio,
+  encodeDocument,
+  encodeImage,
+  encodeVideo,
+} from './media-builder';
+
 /** Message field numbers (write side — mirror of the reader's schema). */
 const MessageField = {
   Conversation: 1,
+  ImageMessage: 3,
+  DocumentMessage: 7,
+  AudioMessage: 8,
+  VideoMessage: 9,
   ExtendedTextMessage: 6,
   ReactionMessage: 46,
 } as const;
@@ -130,6 +145,34 @@ export class MessageBuilder {
       });
     }
     this.field = bytesField(MessageField.ReactionMessage, encodeFields(fields));
+    this.extExtras = [];
+    return this;
+  }
+
+  /** Build an image message. */
+  image(options: ImageOptions): this {
+    this.field = bytesField(MessageField.ImageMessage, encodeImage(options));
+    this.extExtras = [];
+    return this;
+  }
+
+  /** Build a video message. */
+  video(options: VideoOptions): this {
+    this.field = bytesField(MessageField.VideoMessage, encodeVideo(options));
+    this.extExtras = [];
+    return this;
+  }
+
+  /** Build an audio message (set `ptt: true` for a voice note). */
+  audio(options: AudioOptions): this {
+    this.field = bytesField(MessageField.AudioMessage, encodeAudio(options));
+    this.extExtras = [];
+    return this;
+  }
+
+  /** Build a document message. */
+  document(options: DocumentOptions): this {
+    this.field = bytesField(MessageField.DocumentMessage, encodeDocument(options));
     this.extExtras = [];
     return this;
   }

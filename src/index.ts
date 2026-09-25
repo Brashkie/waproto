@@ -33,3 +33,9 @@ export { ProtocolMessage, ProtocolMessageType } from './messages/protocol-messag
 // ─── Builders (write path, v0.9.0) ───────────────────────────────────────────
 export { buildMessage, MessageBuilder } from './builders/message-builder';
 export type { KeyInput } from './builders/message-builder';
+export type {
+  ImageOptions,
+  VideoOptions,
+  AudioOptions,
+  DocumentOptions,
+} from './builders/media-builder';

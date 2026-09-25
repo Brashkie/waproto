@@ -38,7 +38,8 @@ toward a from-scratch Baileys alternative.
 ## 🟡 Phase 5 — Encoding (write path)
 
 - [x] Fluent builders: conversation / extendedText+preview / reaction *(v0.9.0)*
-- [ ] Media & interactive builders (image/buttons/list)
+- [x] Media builders (image/video/audio/document) *(v0.10.0)*
+- [ ] Interactive builders (buttons/list)
 - [ ] `.toObject()` eager materialization for when the full object is wanted
 
 ## 🔲 Phase 6 — Codegen (optional)
@@ -51,4 +52,4 @@ toward a from-scratch Baileys alternative.
 - Feeds into `signalis-net` (transport: socket + Noise + framing) and, together
   with `@brashkie/signalis`, a from-scratch Baileys alternative.
 
-**Progress: Phase 5 started (fluent builders: text, extended text, reaction). Next: media/interactive builders, or TemplateMessage.**
+**Progress: Phase 5 — text + media builders done. Next: interactive builders (buttons/list), or TemplateMessage.**
