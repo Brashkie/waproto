@@ -25,6 +25,15 @@ import {
 } from '@brashkie/signalis-codec';
 
 import {
+  type ButtonSpec,
+  type ButtonsSpec,
+  type ListSpec,
+  type RowSpec,
+  type SectionSpec,
+  encodeButtons,
+  encodeList,
+} from './interactive-builder';
+import {
   type AudioOptions,
   type DocumentOptions,
   type ImageOptions,
@@ -44,6 +53,8 @@ const MessageField = {
   VideoMessage: 9,
   ExtendedTextMessage: 6,
   ReactionMessage: 46,
+  ListMessage: 36,
+  ButtonsMessage: 42,
 } as const;
 
 /** ExtendedTextMessage field numbers. */
@@ -98,11 +109,19 @@ function encodeKey(key: KeyInput): Buffer {
 export class MessageBuilder {
   private field: FieldInput | null = null;
   private extExtras: FieldInput[] = [];
+  private buttonsSpec: ButtonsSpec | null = null;
+  private listSpec: ListSpec | null = null;
+
+  private resetInteractive(): void {
+    this.buttonsSpec = null;
+    this.listSpec = null;
+  }
 
   /** Set plain-text content. */
   conversation(text: string): this {
     this.field = stringField(MessageField.Conversation, text);
     this.extExtras = [];
+    this.resetInteractive();
     return this;
   }
 
@@ -146,6 +165,7 @@ export class MessageBuilder {
     }
     this.field = bytesField(MessageField.ReactionMessage, encodeFields(fields));
     this.extExtras = [];
+    this.resetInteractive();
     return this;
   }
 
@@ -153,6 +173,7 @@ export class MessageBuilder {
   image(options: ImageOptions): this {
     this.field = bytesField(MessageField.ImageMessage, encodeImage(options));
     this.extExtras = [];
+    this.resetInteractive();
     return this;
   }
 
@@ -160,6 +181,7 @@ export class MessageBuilder {
   video(options: VideoOptions): this {
     this.field = bytesField(MessageField.VideoMessage, encodeVideo(options));
     this.extExtras = [];
+    this.resetInteractive();
     return this;
   }
 
@@ -167,6 +189,7 @@ export class MessageBuilder {
   audio(options: AudioOptions): this {
     this.field = bytesField(MessageField.AudioMessage, encodeAudio(options));
     this.extExtras = [];
+    this.resetInteractive();
     return this;
   }
 
@@ -174,14 +197,80 @@ export class MessageBuilder {
   document(options: DocumentOptions): this {
     this.field = bytesField(MessageField.DocumentMessage, encodeDocument(options));
     this.extExtras = [];
+    this.resetInteractive();
+    return this;
+  }
+
+  // ─── Interactive: buttons ──────────────────────────────────────────────────
+
+  /** Start a buttons message with optional body text. Add buttons with `addButton`. */
+  buttons(contentText?: string): this {
+    this.field = null;
+    this.extExtras = [];
+    this.listSpec = null;
+    this.buttonsSpec = { contentText, buttons: [] };
+    return this;
+  }
+
+  /** Add a quick-reply button (call after `buttons()`). */
+  addButton(id: string, text: string): this {
+    if (this.buttonsSpec === null) {
+      throw new Error('MessageBuilder: call buttons() before addButton()');
+    }
+    this.buttonsSpec.buttons.push({ id, text });
+    return this;
+  }
+
+  // ─── Interactive: list ─────────────────────────────────────────────────────
+
+  /**
+   * Start a list message with an optional title, the label of its open button,
+   * and an optional body description.
+   */
+  list(title?: string, buttonText?: string, description?: string): this {
+    this.field = null;
+    this.extExtras = [];
+    this.buttonsSpec = null;
+    this.listSpec = { title, buttonText, description, sections: [] };
+    return this;
+  }
+
+  /** Add a section with its rows (call after `list()`). */
+  addSection(title: string, rows: RowSpec[]): this {
+    if (this.listSpec === null) {
+      throw new Error('MessageBuilder: call list() before addSection()');
+    }
+    this.listSpec.sections.push({ title, rows });
+    return this;
+  }
+
+  /** Set the footer text of the active buttons or list message. */
+  footer(text: string): this {
+    if (this.buttonsSpec !== null) {
+      this.buttonsSpec.footerText = text;
+    } else if (this.listSpec !== null) {
+      this.listSpec.footerText = text;
+    } else {
+      throw new Error('MessageBuilder: footer() requires an active buttons() or list()');
+    }
     return this;
   }
 
   /** Encode the message to a protobuf buffer. */
   build(): Buffer {
+    // Interactive messages (accumulated via addButton / addSection).
+    if (this.buttonsSpec !== null) {
+      return encodeFields([
+        bytesField(MessageField.ButtonsMessage, encodeButtons(this.buttonsSpec)),
+      ]);
+    }
+    if (this.listSpec !== null) {
+      return encodeFields([bytesField(MessageField.ListMessage, encodeList(this.listSpec))]);
+    }
+
     if (this.field === null) {
       throw new Error(
-        'MessageBuilder: no content set — call conversation(), extendedText(), or reaction() first',
+        'MessageBuilder: no content set — call conversation(), extendedText(), a media method, buttons(), or list() first',
       );
     }
     // Assemble the extendedText submessage now (if that's what was chosen).

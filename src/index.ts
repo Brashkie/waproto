@@ -39,3 +39,10 @@ export type {
   AudioOptions,
   DocumentOptions,
 } from './builders/media-builder';
+export type {
+  ButtonSpec,
+  ButtonsSpec,
+  RowSpec,
+  SectionSpec,
+  ListSpec,
+} from './builders/interactive-builder';

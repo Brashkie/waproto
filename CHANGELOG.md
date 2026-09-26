@@ -4,6 +4,29 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.11.0] — 2026-09-25
+
+### Added — Phase 5 (part 3): interactive builders (buttons & list)
+
+Fluent write-path builders for the interactive containers, using the array-based
+design (accumulate buttons; add each section with its rows as an array — no
+implicit "current section" state). Round-trip verified (build → decode → match).
+
+- **`.buttons(contentText?)` + `.addButton(id, text)` + `.footer(text)`** — build
+  a quick-reply buttons message.
+- **`.list(title?, buttonText?, description?)` + `.addSection(title, rows[])` +
+  `.footer(text)`** — build a sectioned list message; rows accept
+  `{ title, description?, rowId? }`.
+- Spec types exported: `ButtonSpec`, `ButtonsSpec`, `RowSpec`, `SectionSpec`,
+  `ListSpec`.
+- Switching content type (e.g. `.buttons().conversation()`) clears prior
+  interactive state.
+
+This completes the write-path builders for the common message types (text,
+media, buttons, list, reactions).
+
+Coverage: 100% (lines/branches/functions), 75 tests.
+
 ## [0.10.0] — 2026-09-24
 
 ### Added — Phase 5 (part 2): media builders

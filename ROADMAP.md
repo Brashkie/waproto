@@ -35,11 +35,11 @@ toward a from-scratch Baileys alternative.
 - [x] `ListMessage` + `Section` + `Row` *(v0.7.0 — nested repeated)*
 - [ ] `TemplateMessage` (Phase 4b part 2 — large subtree, own release)
 
-## 🟡 Phase 5 — Encoding (write path)
+## ✅ Phase 5 — Encoding (write path)
 
 - [x] Fluent builders: conversation / extendedText+preview / reaction *(v0.9.0)*
 - [x] Media builders (image/video/audio/document) *(v0.10.0)*
-- [ ] Interactive builders (buttons/list)
+- [x] Interactive builders (buttons/list) *(v0.11.0 — array-based, round-trip verified)*
 - [ ] `.toObject()` eager materialization for when the full object is wanted
 
 ## 🔲 Phase 6 — Codegen (optional)
@@ -52,4 +52,4 @@ toward a from-scratch Baileys alternative.
 - Feeds into `signalis-net` (transport: socket + Noise + framing) and, together
   with `@brashkie/signalis`, a from-scratch Baileys alternative.
 
-**Progress: Phase 5 — text + media builders done. Next: interactive builders (buttons/list), or TemplateMessage.**
+**Progress: Phase 5 complete (text/media/interactive builders). Remaining: TemplateMessage (read), optional codegen, then 1.0.**
