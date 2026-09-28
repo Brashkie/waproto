@@ -8,7 +8,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within PollCreationMessage (WhatsApp schema). */
 enum Field {
@@ -33,6 +33,11 @@ export class PollOption extends LazyModel {
   /** The option's display text. */
   get name(): string | null {
     return this.raw.getString(OptionField.OptionName);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({ name: this.name });
   }
 }
 
@@ -61,5 +66,14 @@ export class PollCreationMessage extends LazyModel {
   /** The option display texts, in order — convenience over {@link options}. */
   get optionNames(): string[] {
     return this.options.map((o) => o.name ?? '');
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      name: this.name,
+      selectableOptionsCount: this.selectableOptionsCount,
+      options: this.options.map((o) => o.toObject()),
+    });
   }
 }

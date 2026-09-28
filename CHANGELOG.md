@@ -4,6 +4,32 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.12.0] — 2026-09-26
+
+### Added — `toObject()` eager materialization (completes Phase 5)
+
+Every model now has **`toObject()`**: materialize a lazy message into a plain JS
+object, eagerly. The complement to the lazy getters — handy for logging, JSON,
+or handing a whole message to another system.
+
+- Present fields only — `null`/`undefined` and empty arrays are omitted.
+- Submessages materialize recursively; repeated fields become arrays.
+- `MessageObject` type exported (`Record<string, unknown>`).
+- Implemented on all 19 model classes (enforced via an abstract method on
+  `LazyModel`, so none can be forgotten).
+
+```ts
+Message.decode(buf).toObject();
+// → { imageMessage: { url, mimetype, caption, ... } }
+WebMessageInfo.decode(buf).toObject();
+// → { key: { remoteJid, fromMe, id }, message: { conversation }, pushName }
+```
+
+This closes the last open Phase 5 item. Lazy for performance (routing), eager for
+convenience (the whole object) — both paths available.
+
+Coverage: 100% (lines/branches/functions), 92 tests.
+
 ## [0.11.0] — 2026-09-25
 
 ### Added — Phase 5 (part 3): interactive builders (buttons & list)

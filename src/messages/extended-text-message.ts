@@ -5,7 +5,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within ExtendedTextMessage (WhatsApp schema). */
 enum Field {
@@ -41,5 +41,15 @@ export class ExtendedTextMessage extends LazyModel {
   /** Link-preview description. */
   get description(): string | null {
     return this.raw.getString(Field.Description);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      text: this.text,
+      canonicalUrl: this.canonicalUrl,
+      title: this.title,
+      description: this.description,
+    });
   }
 }

@@ -8,7 +8,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within ListMessage (WhatsApp schema). */
 enum Field {
@@ -53,6 +53,11 @@ export class Row extends LazyModel {
   get rowId(): string | null {
     return this.raw.getString(RowField.RowId);
   }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({ title: this.title, description: this.description, rowId: this.rowId });
+  }
 }
 
 /** A section grouping several rows. */
@@ -70,6 +75,11 @@ export class Section extends LazyModel {
   /** All rows in this section (repeated). Empty array if none. */
   get rows(): Row[] {
     return this.raw.getAllMessages(SectionField.Rows).map((m) => Row.from(m));
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({ title: this.title, rows: this.rows.map((r) => r.toObject()) });
   }
 }
 
@@ -103,5 +113,16 @@ export class ListMessage extends LazyModel {
   /** All sections (repeated). Empty array if none. */
   get sections(): Section[] {
     return this.raw.getAllMessages(Field.Sections).map((m) => Section.from(m));
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      title: this.title,
+      description: this.description,
+      buttonText: this.buttonText,
+      footerText: this.footerText,
+      sections: this.sections.map((s) => s.toObject()),
+    });
   }
 }

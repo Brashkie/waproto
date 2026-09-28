@@ -5,7 +5,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 import { MessageKey } from './message-key';
 
 /** Field numbers within ReactionMessage (WhatsApp schema). */
@@ -47,5 +47,15 @@ export class ReactionMessage extends LazyModel {
   /** Whether this reaction removes a previous one (empty text). */
   get isRemoval(): boolean {
     return this.text === '';
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      key: this.key?.toObject(),
+      text: this.text,
+      groupingKey: this.groupingKey,
+      senderTimestampMs: this.senderTimestampMs,
+    });
   }
 }

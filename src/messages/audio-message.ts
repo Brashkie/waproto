@@ -5,7 +5,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within AudioMessage (WhatsApp schema). */
 enum Field {
@@ -75,5 +75,20 @@ export class AudioMessage extends LazyModel {
   /** Whether this audio is a voice note (push-to-talk). */
   get isVoiceNote(): boolean {
     return this.ptt === true;
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      url: this.url,
+      mimetype: this.mimetype,
+      fileSha256: this.fileSha256,
+      fileLength: this.fileLength,
+      seconds: this.seconds,
+      ptt: this.ptt,
+      mediaKey: this.mediaKey,
+      fileEncSha256: this.fileEncSha256,
+      directPath: this.directPath,
+    });
   }
 }

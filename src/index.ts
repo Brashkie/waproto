@@ -14,6 +14,7 @@
  */
 
 export { LazyModel } from './field-reader';
+export type { MessageObject } from './field-reader';
 export { Message } from './messages/message';
 export { ExtendedTextMessage } from './messages/extended-text-message';
 export { ImageMessage } from './messages/image-message';

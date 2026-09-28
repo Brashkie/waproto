@@ -5,7 +5,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within VideoMessage (WhatsApp schema). */
 enum Field {
@@ -100,5 +100,24 @@ export class VideoMessage extends LazyModel {
   /** Whether this video plays as a GIF. */
   get isGif(): boolean {
     return this.gifPlayback === true;
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      url: this.url,
+      mimetype: this.mimetype,
+      fileSha256: this.fileSha256,
+      fileLength: this.fileLength,
+      seconds: this.seconds,
+      mediaKey: this.mediaKey,
+      caption: this.caption,
+      gifPlayback: this.gifPlayback,
+      height: this.height,
+      width: this.width,
+      fileEncSha256: this.fileEncSha256,
+      directPath: this.directPath,
+      viewOnce: this.viewOnce,
+    });
   }
 }

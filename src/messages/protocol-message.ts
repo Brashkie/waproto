@@ -7,7 +7,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 import { Message } from './message';
 import { MessageKey } from './message-key';
 
@@ -83,5 +83,16 @@ export class ProtocolMessage extends LazyModel {
   /** Whether this changes the disappearing-message timer. */
   get isEphemeralSetting(): boolean {
     return this.type === ProtocolMessageType.EphemeralSetting;
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      key: this.key?.toObject(),
+      type: this.type,
+      ephemeralExpiration: this.ephemeralExpiration,
+      editedMessage: this.editedMessage?.toObject(),
+      timestampMs: this.timestampMs,
+    });
   }
 }

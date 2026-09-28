@@ -8,7 +8,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within ContextInfo (WhatsApp schema). */
 enum Field {
@@ -70,5 +70,18 @@ export class ContextInfo extends LazyModel {
   /** Whether this context represents a reply/quote. */
   get isReply(): boolean {
     return this.has(Field.QuotedMessage) || this.has(Field.StanzaId);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      stanzaId: this.stanzaId,
+      participant: this.participant,
+      remoteJid: this.remoteJid,
+      mentionedJid: this.mentionedJid,
+      forwardingScore: this.forwardingScore,
+      isForwarded: this.isForwarded,
+      expiration: this.expiration,
+    });
   }
 }

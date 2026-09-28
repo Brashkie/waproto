@@ -8,7 +8,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within ButtonsMessage (WhatsApp schema). */
 enum Field {
@@ -45,6 +45,11 @@ export class Button extends LazyModel {
     const txt = this.raw.getMessage(ButtonField.ButtonText);
     return txt === null ? null : txt.getString(ButtonTextField.DisplayText);
   }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({ buttonId: this.buttonId, displayText: this.displayText });
+  }
 }
 
 /** Lazy view over a ButtonsMessage. */
@@ -67,5 +72,14 @@ export class ButtonsMessage extends LazyModel {
   /** All buttons (repeated). Empty array if none. */
   get buttons(): Button[] {
     return this.raw.getAllMessages(Field.Buttons).map((m) => Button.from(m));
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      contentText: this.contentText,
+      footerText: this.footerText,
+      buttons: this.buttons.map((b) => b.toObject()),
+    });
   }
 }

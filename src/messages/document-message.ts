@@ -5,7 +5,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within DocumentMessage (WhatsApp schema). */
 enum Field {
@@ -82,5 +82,22 @@ export class DocumentMessage extends LazyModel {
   /** Optional caption. */
   get caption(): string | null {
     return this.raw.getString(Field.Caption);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      url: this.url,
+      mimetype: this.mimetype,
+      title: this.title,
+      fileSha256: this.fileSha256,
+      fileLength: this.fileLength,
+      pageCount: this.pageCount,
+      mediaKey: this.mediaKey,
+      fileName: this.fileName,
+      fileEncSha256: this.fileEncSha256,
+      directPath: this.directPath,
+      caption: this.caption,
+    });
   }
 }

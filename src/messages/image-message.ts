@@ -5,7 +5,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within ImageMessage (WhatsApp schema). */
 enum Field {
@@ -76,5 +76,21 @@ export class ImageMessage extends LazyModel {
   /** CDN direct path (used to build the download URL). */
   get directPath(): string | null {
     return this.raw.getString(Field.DirectPath);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      url: this.url,
+      mimetype: this.mimetype,
+      caption: this.caption,
+      fileSha256: this.fileSha256,
+      fileLength: this.fileLength,
+      height: this.height,
+      width: this.width,
+      mediaKey: this.mediaKey,
+      fileEncSha256: this.fileEncSha256,
+      directPath: this.directPath,
+    });
   }
 }

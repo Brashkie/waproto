@@ -7,7 +7,7 @@
  * Field numbers verified against the official WhatsApp `.proto`.
  */
 
-import { LazyModel, indexBuffer } from '../field-reader';
+import { LazyModel, type MessageObject, indexBuffer } from '../field-reader';
 import { Message } from './message';
 import { MessageKey } from './message-key';
 
@@ -80,5 +80,19 @@ export class WebMessageInfo extends LazyModel {
   /** Whether the message is a broadcast. */
   get broadcast(): boolean | null {
     return this.raw.getBool(Field.Broadcast);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      key: this.key?.toObject(),
+      message: this.message?.toObject(),
+      messageTimestamp: this.messageTimestamp,
+      status: this.status,
+      pushName: this.pushName,
+      participant: this.participant,
+      starred: this.starred,
+      broadcast: this.broadcast,
+    });
   }
 }

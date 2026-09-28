@@ -6,7 +6,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within MessageKey (WhatsApp schema). */
 enum Field {
@@ -41,5 +41,15 @@ export class MessageKey extends LazyModel {
   /** In group chats, the participant JID who sent the message. */
   get participant(): string | null {
     return this.raw.getString(Field.Participant);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      remoteJid: this.remoteJid,
+      fromMe: this.fromMe,
+      id: this.id,
+      participant: this.participant,
+    });
   }
 }

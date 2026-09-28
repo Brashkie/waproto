@@ -8,7 +8,7 @@
 
 import type { LazyMessage } from '@brashkie/signalis-codec';
 
-import { LazyModel } from '../field-reader';
+import { LazyModel, type MessageObject } from '../field-reader';
 
 /** Field numbers within StickerMessage (WhatsApp schema). */
 enum Field {
@@ -85,5 +85,22 @@ export class StickerMessage extends LazyModel {
   /** Whether this is an avatar sticker. */
   get isAvatar(): boolean | null {
     return this.raw.getBool(Field.IsAvatar);
+  }
+
+  /** Materialize to a plain object (present fields only). */
+  toObject(): MessageObject {
+    return this.pick({
+      url: this.url,
+      fileSha256: this.fileSha256,
+      fileEncSha256: this.fileEncSha256,
+      mediaKey: this.mediaKey,
+      mimetype: this.mimetype,
+      height: this.height,
+      width: this.width,
+      directPath: this.directPath,
+      fileLength: this.fileLength,
+      isAnimated: this.isAnimated,
+      isAvatar: this.isAvatar,
+    });
   }
 }

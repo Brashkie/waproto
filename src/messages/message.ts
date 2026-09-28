@@ -6,7 +6,7 @@
  * Field numbers are from the official WhatsApp protobuf schema.
  */
 
-import { LazyModel, indexBuffer } from '../field-reader';
+import { LazyModel, type MessageObject, indexBuffer } from '../field-reader';
 import { AudioMessage } from './audio-message';
 import { ButtonsMessage } from './buttons-message';
 import { DocumentMessage } from './document-message';
@@ -177,5 +177,26 @@ export class Message extends LazyModel {
       this.has(Field.DocumentMessage) ||
       this.has(Field.StickerMessage)
     );
+  }
+
+  /**
+   * Materialize the whole message into a plain object, eagerly. Only the present
+   * content type is included; submessages are materialized recursively.
+   */
+  toObject(): MessageObject {
+    return this.pick({
+      conversation: this.conversation,
+      extendedTextMessage: this.extendedTextMessage?.toObject(),
+      imageMessage: this.imageMessage?.toObject(),
+      videoMessage: this.videoMessage?.toObject(),
+      audioMessage: this.audioMessage?.toObject(),
+      documentMessage: this.documentMessage?.toObject(),
+      stickerMessage: this.stickerMessage?.toObject(),
+      reactionMessage: this.reactionMessage?.toObject(),
+      pollCreationMessage: this.pollCreationMessage?.toObject(),
+      buttonsMessage: this.buttonsMessage?.toObject(),
+      listMessage: this.listMessage?.toObject(),
+      protocolMessage: this.protocolMessage?.toObject(),
+    });
   }
 }
