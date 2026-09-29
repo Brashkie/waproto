@@ -17,6 +17,7 @@ import { PollCreationMessage } from './poll-creation-message';
 import { ProtocolMessage } from './protocol-message';
 import { ReactionMessage } from './reaction-message';
 import { StickerMessage } from './sticker-message';
+import { TemplateMessage } from './template-message';
 import { VideoMessage } from './video-message';
 
 /** Field numbers within Message (WhatsApp schema). */
@@ -31,6 +32,7 @@ enum Field {
   AudioMessage = 8,
   VideoMessage = 9,
   ProtocolMessage = 12,
+  TemplateMessage = 25,
   StickerMessage = 26,
   ReactionMessage = 46,
   PollCreationMessage = 49,
@@ -155,6 +157,12 @@ export class Message extends LazyModel {
     return sub === null ? null : ProtocolMessage.from(sub);
   }
 
+  /** Templated message with buttons (hydrated path). Lazily indexed submessage. */
+  get templateMessage(): TemplateMessage | null {
+    const sub = this.raw.getMessage(Field.TemplateMessage);
+    return sub === null ? null : TemplateMessage.from(sub);
+  }
+
   /** Whether this message carries plain-text content. */
   get isText(): boolean {
     return this.has(Field.Conversation) || this.has(Field.ExtendedTextMessage);
@@ -197,6 +205,7 @@ export class Message extends LazyModel {
       buttonsMessage: this.buttonsMessage?.toObject(),
       listMessage: this.listMessage?.toObject(),
       protocolMessage: this.protocolMessage?.toObject(),
+      templateMessage: this.templateMessage?.toObject(),
     });
   }
 }

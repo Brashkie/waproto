@@ -26,14 +26,14 @@ toward a from-scratch Baileys alternative.
 - [x] `ContextInfo` *(v0.4.0 — reply/quote + forwarding; scalar fields)*
 - [x] Repeated fields — `ContextInfo.mentionedJid` *(v0.5.0, via signalis-codec 0.5.0 `getAllStrings`)*
 
-## 🟡 Phase 4 — Interactive & protocol messages
+## ✅ Phase 4 — Interactive & protocol messages
 
 - [x] `ReactionMessage` *(v0.6.0)*
 - [x] `PollCreationMessage` + `PollOption` *(v0.6.0 — repeated options)*
 - [x] `ProtocolMessage` *(v0.8.0 — revoke/edit/ephemeral)*
 - [x] `ButtonsMessage` + `Button` *(v0.7.0)*
 - [x] `ListMessage` + `Section` + `Row` *(v0.7.0 — nested repeated)*
-- [ ] `TemplateMessage` (Phase 4b part 2 — large subtree, own release)
+- [x] `TemplateMessage` *(v0.13.0 — hydrated path; legacy FourRowTemplate omitted)*
 
 ## ✅ Phase 5 — Encoding (write path)
 

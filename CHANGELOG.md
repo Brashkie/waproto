@@ -4,6 +4,28 @@ All notable changes to `@brashkie/waproto` are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.13.0] — 2026-09-28
+
+### Added — TemplateMessage (hydrated) — completes Phase 4
+
+The last interactive type. Models the **hydrated** path (`HydratedFourRowTemplate`)
+that clients receive for display; the legacy non-hydrated `FourRowTemplate`
+(`HighlyStructuredMessage` subtree) is intentionally not modeled. Field numbers
+verified against the official WhatsApp `.proto`.
+
+- **`TemplateMessage`** — `hydratedTemplate`, `templateId`.
+- **`HydratedFourRowTemplate`** — `contentText`, `footerText`, `templateId`,
+  `buttons` (repeated).
+- **`HydratedTemplateButton`** — `index`, `quickReplyButton` / `urlButton` /
+  `callButton` variants, plus a `displayText` helper.
+- **`HydratedQuickReplyButton`** (`displayText`, `id`), **`HydratedURLButton`**
+  (`displayText`, `url`), **`HydratedCallButton`** (`displayText`, `phoneNumber`).
+- All support `toObject()`; `Message` exposes `templateMessage`.
+
+**Phase 4 is now complete** — every common interactive/content type is modeled.
+
+Coverage: 100% (lines/branches/functions), 97 tests.
+
 ## [0.12.0] — 2026-09-26
 
 ### Added — `toObject()` eager materialization (completes Phase 5)
